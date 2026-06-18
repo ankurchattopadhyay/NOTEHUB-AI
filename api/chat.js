@@ -15,14 +15,18 @@ export default async function handler(req, res) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "meta-llama/llama-3.1-8b-instruct",
-          messages: [
-            {
-              role: "user",
-              content: question
-            }
-          ]
-        })
+  model: "meta-llama/llama-3.1-8b-instruct",
+  messages: [
+    {
+      role: "system",
+      content: "You are NoteHub AI, a helpful study assistant for students. Give clear, accurate, educational answers."
+    },
+    {
+      role: "user",
+      content: question
+    }
+  ]
+})
       }
     );
 
