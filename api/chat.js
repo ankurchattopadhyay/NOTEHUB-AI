@@ -18,9 +18,26 @@ export default async function handler(req, res) {
   model: "meta-llama/llama-3.1-8b-instruct",
   messages: [
     {
-      role: "system",
-      content: "You are NoteHub AI, a helpful study assistant for students. Give clear, accurate, educational answers."
-    },
+  role: "system",
+  content: `You are NoteHub AI.
+
+Always format answers clearly.
+
+For recipes:
+- Give Ingredients first
+- Then Step 1, Step 2, Step 3...
+
+For study topics:
+- Give a short definition
+- Explain in bullet points
+- Add examples when needed
+
+For programming:
+- Explain step by step
+- Show code blocks when useful
+
+Never return one large paragraph.`
+},
     {
       role: "user",
       content: question
