@@ -58,15 +58,32 @@ AI connection is being configured...
 
 <script>
 async function askAI() {
-const q = document.getElementById("question").value;
+  const question = document.getElementById("question").value;
 
-if(!q){
-alert("Please enter a question");
-return;
-}
+  if (!question) {
+    alert("Please enter a question");
+    return;
+  }
 
-document.getElementById("answer").innerHTML =
-"AI backend setup in progress. Soon NoteHub AI will answer your questions automatically.";
+  document.getElementById("answer").innerHTML = "Thinking...";
+
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ question }),
+    });
+
+    const data = await response.json();
+
+    document.getElementById("answer").innerHTML =
+      data.answer || data.error || "No response";
+  } catch (error) {
+    document.getElementById("answer").innerHTML =
+      "Error connecting to AI.";
+  }
 }
 </script>
 
