@@ -84,8 +84,7 @@ async function askAI() {
   }
 
   document.getElementById("answer").innerHTML =
-    "<b>🤖 Thinking...</b>";
-
+"<h3>🤖 Thinking...</h3><p>Please wait while AI prepares your answer.</p>";
   try {
     const response = await fetch("/api/chat", {
       method: "POST",
