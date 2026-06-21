@@ -211,8 +211,6 @@ document.getElementById("answer").innerHTML =
 
 });
 
-window.onload = function(){
-
 function renderHistory(){
 
 const history =
@@ -226,11 +224,6 @@ ${item.question}
 ).join("");
 
 }
-  
-const history =
-JSON.parse(localStorage.getItem("notehub_history")) || [];
-
-renderHistory();
 
 function openChat(index){
 
@@ -246,8 +239,10 @@ document.getElementById("answer").innerHTML =
 chat.answer;
 
 }
-};
 
+window.onload = function(){
+renderHistory();
+};
 async function askAI() {
 let history =
 JSON.parse(localStorage.getItem("notehub_history")) || [];
