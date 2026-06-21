@@ -213,12 +213,39 @@ document.getElementById("answer").innerHTML =
 
 window.onload = function(){
 
+function renderHistory(){
+
 const history =
 JSON.parse(localStorage.getItem("notehub_history")) || [];
 
 document.getElementById("history").innerHTML =
-history.map(q => `<div>${q}</div>`).join("");
+history.map((item,index)=>
+`<div onclick="openChat(${index})">
+${item.question}
+</div>`
+).join("");
 
+}
+  
+const history =
+JSON.parse(localStorage.getItem("notehub_history")) || [];
+
+renderHistory();
+
+function openChat(index){
+
+const history =
+JSON.parse(localStorage.getItem("notehub_history")) || [];
+
+const chat = history[index];
+
+document.getElementById("question").value =
+chat.question;
+
+document.getElementById("answer").innerHTML =
+chat.answer;
+
+}
 };
 
 async function askAI() {
@@ -253,7 +280,14 @@ data.error ||
 "No response received."
 );
 
-history.unshift(question);
+history.unshift({
+question: question,
+answer: marked.parse(
+data.answer ||
+data.error ||
+"No response received."
+)
+});
 
 if(history.length > 5){
 history.pop();
@@ -264,8 +298,7 @@ localStorage.setItem(
 JSON.stringify(history)
 );
 
-document.getElementById("history").innerHTML =
-history.map(q => `<div>${q}</div>`).join("");
+renderHistory();
 
 } catch (error) {
 
