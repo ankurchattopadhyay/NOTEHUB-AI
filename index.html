@@ -55,6 +55,18 @@ line-height:1.8;
 font-size:16px;
 min-height:120px;
 }
+#history{
+margin-top:15px;
+padding:15px;
+background:#f0f4ff;
+border-radius:12px;
+font-size:14px;
+}
+
+.dark #history{
+background:#2a2a2a;
+color:white;
+}
 
 /* DARK MODE */
 
@@ -112,7 +124,8 @@ color:white;
 <div id="answer">
 AI connection is being configured...
 </div>
-
+<h3>📜 Recent Questions</h3>
+<div id="history"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -136,8 +149,19 @@ function toggleDarkMode() {
 document.body.classList.toggle("dark");
 }
 
-async function askAI() {
+window.onload = function(){
 
+const history =
+JSON.parse(localStorage.getItem("notehub_history")) || [];
+
+document.getElementById("history").innerHTML =
+history.map(q => "• " + q).join("<br>");
+
+};
+
+async function askAI() {
+let history =
+JSON.parse(localStorage.getItem("notehub_history")) || [];
 const question = document.getElementById("question").value;
 
 if (!question) {
@@ -166,6 +190,20 @@ data.answer ||
 data.error ||
 "No response received."
 );
+
+history.unshift(question);
+
+if(history.length > 5){
+history.pop();
+}
+
+localStorage.setItem(
+"notehub_history",
+JSON.stringify(history)
+);
+
+document.getElementById("history").innerHTML =
+history.map(q => "• " + q).join("<br>");
 
 } catch (error) {
 
