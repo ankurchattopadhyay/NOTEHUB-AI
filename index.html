@@ -88,20 +88,25 @@ AI connection is being configured...
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+
 document.getElementById("question").addEventListener("keydown", function(e) {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     askAI();
   }
 });
-  function copyAnswer() {
+
+function copyAnswer() {
   const text = document.getElementById("answer").innerText;
   navigator.clipboard.writeText(text);
   alert("Answer copied!");
 }
-  function toggleDarkMode() {
+
+function toggleDarkMode() {
   document.body.classList.toggle("dark");
+}
 }
 <script>
 async function askAI() {
