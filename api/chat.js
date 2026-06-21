@@ -17,7 +17,6 @@ export default async function handler(req, res) {
         body: JSON.stringify({
   model: "meta-llama/llama-3.1-8b-instruct",
   messages: [
-    {
   {
   role: "system",
   content: `You are NoteHub AI, a study assistant.
