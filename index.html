@@ -53,16 +53,23 @@ background:#eef4ff;
 border-radius:12px;
 line-height:1.8;
 font-size:16px;
-min-height:120px;
+min-height:180px;
+overflow:auto;
 }
-#history{
-margin-top:15px;
-padding:15px;
-background:#f0f4ff;
-border-radius:12px;
+  
+#history div{
+padding:12px;
+margin-bottom:10px;
+background:#334155;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
 font-size:14px;
+font-weight:500;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
 }
-
 .dark #history{
 background:#2a2a2a;
 color:white;
@@ -112,6 +119,12 @@ border-radius:12px;
 overflow-y:auto;
 }
 
+.sidebar h2{
+text-align:center;
+margin-bottom:20px;
+font-size:24px;
+}
+
 .main{
 flex:1;
 }
@@ -125,7 +138,8 @@ cursor:pointer;
 }
 
 #history div:hover{
-background:#475569;
+background:#64748b;
+transform:translateX(4px);
 }
 </style>
 
@@ -151,7 +165,7 @@ background:#475569;
 
 <div class="container">
 
-<h1>🤖 NoteHub AI v2.1 🚀</h1>
+<h1>🤖 NoteHub AI v2.2 🚀</h1>
 
 <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
 
@@ -254,7 +268,11 @@ return;
 }
 
 document.getElementById("answer").innerHTML =
-"<h3>🤖 Thinking...</h3><p>Please wait while AI prepares your answer.</p>";
+`
+<h3>🤖 Thinking...</h3>
+<p>Preparing your answer...</p>
+<div style="font-size:24px">⏳</div>
+`;
 
 try {
 
