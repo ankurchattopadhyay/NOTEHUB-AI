@@ -46,12 +46,14 @@ line-height:1.8;
 font-size:16px;
 min-height:120px;
 }
+  <button onclick="copyAnswer()">📋 Copy Answer</button>
 </style>
 </head>
 <body>
 
 <div class="container">
 <h1>🤖 NoteHub AI v1.0 🚀</h1>
+  <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
   <p>Your personal study companion for academic learning.</p>
 
 <p>Ask study questions, get explanations, and generate summaries.</p>
@@ -74,6 +76,14 @@ document.getElementById("question").addEventListener("keydown", function(e) {
     askAI();
   }
 });
+  function copyAnswer() {
+  const text = document.getElementById("answer").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Answer copied!");
+}
+  function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
 <script>
 async function askAI() {
   const question = document.getElementById("question").value;
