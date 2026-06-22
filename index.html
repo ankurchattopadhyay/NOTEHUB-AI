@@ -268,6 +268,13 @@ signOut,
 onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+  import {
+getFirestore,
+collection,
+addDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
 const firebaseConfig = {
    apiKey: "AIzaSyAeYm9HCaATsgHtjVVBB4d8k_fexnubsmk",
@@ -281,6 +288,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+  const db = getFirestore(app);
+
+window.db = db;
+window.collection = collection;
+window.addDoc = addDoc;
+window.serverTimestamp = serverTimestamp;
 
 window.auth = auth;
 window.GoogleAuthProvider = GoogleAuthProvider;
@@ -328,6 +341,31 @@ alert(err.message);
 async function logoutGoogle(){
 
 await signOut(auth);
+
+}
+  async function saveChatToCloud(question, answer){
+
+if(!currentUser) return;
+
+try{
+
+await addDoc(
+collection(db,"chats"),
+{
+uid: currentUser.uid,
+question: question,
+answer: answer,
+createdAt: serverTimestamp()
+}
+);
+
+console.log("Cloud Save Success");
+
+}catch(err){
+
+console.log(err);
+
+}
 
 }
   
@@ -537,6 +575,10 @@ currentChat.push({
 role:"assistant",
 content:data.answer
 });
+  await saveChatToCloud(
+question,
+data.answer
+);
   
 chatArea.scrollTop =
 chatArea.scrollHeight;
