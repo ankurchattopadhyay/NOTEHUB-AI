@@ -417,6 +417,16 @@ console.log(err);
 
 }
 async function loadCloudHistory(){
+async function loadCloudHistory(){
+
+if(!currentUser) return;
+
+try{
+
+const q = query(
+collection(db,"chats"),
+where("uid","==",currentUser.uid)
+);
 
 const snapshot = await getDocs(q);
 
@@ -446,6 +456,7 @@ console.log(err);
 
 }
 
+}
 }
     
 
