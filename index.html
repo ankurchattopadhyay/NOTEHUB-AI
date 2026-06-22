@@ -348,7 +348,13 @@ alert(err.message);
 
 async function logoutGoogle(){
 
+localStorage.removeItem("notehub_history");
+
+document.getElementById("history").innerHTML = "";
+
 await signOut(auth);
+
+location.reload();
 
 }
  async function loadCloudHistory(){
@@ -416,7 +422,7 @@ console.log(err);
 }
 
 }
-async function loadCloudHistory(){
+
 async function loadCloudHistory(){
 
 if(!currentUser) return;
@@ -448,7 +454,12 @@ JSON.stringify(cloudHistory)
 
 renderHistory();
 
-console.log("Cloud History Loaded");
+console.log(
+"Loaded",
+cloudHistory.length,
+"chats for",
+currentUser.displayName
+);
 
 }catch(err){
 
@@ -457,7 +468,7 @@ console.log(err);
 }
 
 }
-}
+
     
 
   
