@@ -226,6 +226,7 @@ transform:translateX(4px);
 </div>
 </div>
 
+  let currentChat = [];
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
@@ -250,7 +251,7 @@ const btn = document.getElementById("newChatBtn");
 
 if(btn){
 btn.addEventListener("click", () => {
-
+currentChat = [];
 document.getElementById("question").value = "";
 
 document.getElementById("chatArea").innerHTML =
@@ -287,12 +288,19 @@ chat.question;
 
 document.getElementById("chatArea").innerHTML =
 chat.answer;
+
+currentChat =
+chat.messages || [];
 }
 
 window.onload = function(){
 renderHistory();
 };
 async function askAI() {
+  currentChat.push({
+role:"user",
+content:question
+});
 let history =
 JSON.parse(localStorage.getItem("notehub_history")) || [];
 const question = document.getElementById("question").value;
@@ -345,16 +353,18 @@ data.error ||
 </div>
 `;
 
+currentChat.push({
+role:"assistant",
+content:data.answer
+});
+  
 chatArea.scrollTop =
 chatArea.scrollHeight;
 
 history.unshift({
-question: question,
-answer: marked.parse(
-data.answer ||
-data.error ||
-"No response received."
-)
+question: currentChat[0].content,
+answer: chatArea.innerHTML,
+messages: currentChat
 });
 
 if(history.length > 5){
