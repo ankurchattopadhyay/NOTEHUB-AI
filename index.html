@@ -351,9 +351,7 @@ async function logoutGoogle(){
 await signOut(auth);
 
 }
-  async function saveChatToCloud(question, answer){
-
-async function loadCloudHistory(){
+ async function loadCloudHistory(){
 
 if(!currentUser) return;
 
@@ -363,6 +361,62 @@ const q = query(
 collection(db,"chats"),
 where("uid","==",currentUser.uid)
 );
+
+const snapshot = await getDocs(q);
+
+let cloudHistory = [];
+
+snapshot.forEach((doc)=>{
+
+cloudHistory.push({
+question: doc.data().question,
+answer: doc.data().answer
+});
+
+});
+
+localStorage.setItem(
+"notehub_history",
+JSON.stringify(cloudHistory)
+);
+
+renderHistory();
+
+console.log("Cloud History Loaded");
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+async function saveChatToCloud(question, answer){
+
+if(!currentUser) return;
+
+try{
+
+await addDoc(
+collection(db,"chats"),
+{
+uid: currentUser.uid,
+question: question,
+answer: answer,
+createdAt: serverTimestamp()
+}
+);
+
+console.log("Cloud Save Success");
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
 
 const snapshot = await getDocs(q);
 
