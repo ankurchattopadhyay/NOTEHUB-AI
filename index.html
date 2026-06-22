@@ -268,14 +268,19 @@ signOut,
 onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-  import {
+  
+import {
 getFirestore,
 collection,
 addDoc,
-serverTimestamp
+serverTimestamp,
+query,
+where,
+getDocs,
+orderBy
 }
 from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-
+  
 const firebaseConfig = {
    apiKey: "AIzaSyAeYm9HCaATsgHtjVVBB4d8k_fexnubsmk",
   authDomain: "notehub-ai-2b07d.firebaseapp.com",
@@ -294,7 +299,10 @@ window.db = db;
 window.collection = collection;
 window.addDoc = addDoc;
 window.serverTimestamp = serverTimestamp;
-
+window.query = query;
+window.where = where;
+window.getDocs = getDocs;
+window.orderBy = orderBy;
 window.auth = auth;
 window.GoogleAuthProvider = GoogleAuthProvider;
 window.signInWithPopup = signInWithPopup;
@@ -345,6 +353,47 @@ await signOut(auth);
 }
   async function saveChatToCloud(question, answer){
 
+async function loadCloudHistory(){
+
+if(!currentUser) return;
+
+try{
+
+const q = query(
+collection(db,"chats"),
+where("uid","==",currentUser.uid)
+);
+
+const snapshot = await getDocs(q);
+
+let cloudHistory = [];
+
+snapshot.forEach((doc)=>{
+
+cloudHistory.push({
+question: doc.data().question,
+answer: doc.data().answer
+});
+
+});
+
+localStorage.setItem(
+"notehub_history",
+JSON.stringify(cloudHistory)
+);
+
+renderHistory();
+
+console.log("Cloud History Loaded");
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+    
 if(!currentUser) return;
 
 try{
@@ -436,7 +485,7 @@ onAuthStateChanged(auth,(user)=>{
 if(user){
 
 currentUser = user;
-
+loadCloudHistory();
 document.getElementById("userName").innerHTML =
 "👤 " + user.displayName;
 
