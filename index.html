@@ -238,11 +238,9 @@ askAI();
 });
 
 function copyAnswer() {
-const text = document.getElementById("answer").innerText;
-navigator.clipboard.writeText(text);
-alert("Answer copied!");
-}
-
+alert("Copy feature will return in V2.3B");
+} 
+  
 function toggleDarkMode() {
 document.body.classList.toggle("dark");
 }
@@ -255,9 +253,9 @@ btn.addEventListener("click", () => {
 
 document.getElementById("question").value = "";
 
-document.getElementById("answer").innerHTML =
-"🤖 New Chat Started";
-
+document.getElementById("chatArea").innerHTML =
+'<div class="ai-message">🤖 New Chat Started</div>';
+  
 });
 }
 
@@ -287,9 +285,8 @@ const chat = history[index];
 document.getElementById("question").value =
 chat.question;
 
-document.getElementById("answer").innerHTML =
+document.getElementById("chatArea").innerHTML =
 chat.answer;
-
 }
 
 window.onload = function(){
@@ -317,11 +314,11 @@ chatArea.innerHTML += `
 chatArea.innerHTML += `
 <div class="ai-message" id="thinking">
 🤖 Thinking...
+<br>
+Preparing your answer...
+<br>
+⏳
 </div>
-`;  
-
-<p>Preparing your answer...</p>
-<div style="font-size:24px">⏳</div>
 `;
 
 try {
