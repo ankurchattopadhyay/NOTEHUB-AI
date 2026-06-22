@@ -175,6 +175,11 @@ cursor:pointer;
 background:#64748b;
 transform:translateX(4px);
 }
+
+.active-chat{
+background:#2563eb !important;
+border:2px solid white;
+}
 </style>
 
 </head>
@@ -190,6 +195,21 @@ transform:translateX(4px);
 <button id="newChatBtn">➕ New Chat</button>
 
 <h3>📜 Chats</h3>
+
+<button id="deleteChatBtn">
+🗑 Delete Selected
+</button>
+  
+  <input
+id="searchChat"
+placeholder="🔍 Search chats..."
+style="
+width:100%;
+padding:10px;
+border:none;
+border-radius:8px;
+margin-bottom:10px;
+">
 
 <div id="history"></div>
 
@@ -231,6 +251,8 @@ transform:translateX(4px);
 
 <script>
 let currentChat = [];
+let activeChatIndex = -1;
+  
 document.getElementById("question").addEventListener("keydown", function(e) {
 if (e.key === "Enter" && !e.shiftKey) {
 e.preventDefault();
@@ -267,17 +289,27 @@ function renderHistory(){
 const history =
 JSON.parse(localStorage.getItem("notehub_history")) || [];
 
+const search =
+document.getElementById("searchChat")?.value?.toLowerCase() || "";
+
 document.getElementById("history").innerHTML =
-history.map((item,index)=>
+history
+.filter(item =>
+item.question.toLowerCase().includes(search)
+)
+.map((item,index)=>
 `<div onclick="openChat(${index})">
 ${item.question}
 </div>`
-).join("");
+)
+.join("");
 
 }
 
 function openChat(index){
-
+  
+activeChatIndex = index;
+renderHistory();
 const history =
 JSON.parse(localStorage.getItem("notehub_history")) || [];
 
@@ -294,8 +326,45 @@ chat.messages || [];
 }
 
 window.onload = function(){
+
 renderHistory();
+
+document
+.getElementById("searchChat")
+.addEventListener("input", renderHistory);
+
 };
+
+document
+.getElementById("deleteChatBtn")
+.addEventListener("click",()=>{
+
+if(activeChatIndex===-1){
+alert("Select a chat first");
+return;
+}
+
+let history =
+JSON.parse(
+localStorage.getItem("notehub_history")
+) || [];
+
+history.splice(activeChatIndex,1);
+
+localStorage.setItem(
+"notehub_history",
+JSON.stringify(history)
+);
+
+activeChatIndex=-1;
+
+renderHistory();
+
+document.getElementById("chatArea").innerHTML =
+'<div class="ai-message">🤖 Chat Deleted</div>';
+
+});
+  
 async function askAI() {
   
 let history =
