@@ -416,7 +416,7 @@ console.log(err);
 }
 
 }
-
+async function loadCloudHistory(){
 
 const snapshot = await getDocs(q);
 
@@ -448,29 +448,7 @@ console.log(err);
 
 }
     
-if(!currentUser) return;
 
-try{
-
-await addDoc(
-collection(db,"chats"),
-{
-uid: currentUser.uid,
-question: question,
-answer: answer,
-createdAt: serverTimestamp()
-}
-);
-
-console.log("Cloud Save Success");
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
   
   document.addEventListener("DOMContentLoaded", () => {
 
