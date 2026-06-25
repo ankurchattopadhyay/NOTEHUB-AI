@@ -382,7 +382,7 @@ cloudHistory.push({
 id: doc.id,
 question: doc.data().question,
 answer: doc.data().answer,
-createdAt: doc.data().createdAt
+createdAt: doc.data().createdAt || null
 });
 });
 
@@ -476,11 +476,13 @@ item.question.toLowerCase().includes(search)
 
 let time = "";
 
+let time = "";
+
 if(item.createdAt){
 
-let date;
+let date = null;
 
-if(item.createdAt.toDate){
+if(typeof item.createdAt.toDate === "function"){
 
 date = item.createdAt.toDate();
 
@@ -490,13 +492,17 @@ date = new Date(item.createdAt);
 
 }
 
+if(!isNaN(date.getTime())){
+
 time =
-date.toLocaleDateString() +
-" " +
+date.toLocaleDateString("en-GB") +
+" • " +
 date.toLocaleTimeString([],{
 hour:"2-digit",
 minute:"2-digit"
 });
+
+}
 
 }
 
