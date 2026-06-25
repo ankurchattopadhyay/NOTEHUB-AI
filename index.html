@@ -381,7 +381,8 @@ snapshot.forEach((doc)=>{
 cloudHistory.push({
 id: doc.id,
 question: doc.data().question,
-answer: doc.data().answer
+answer: doc.data().answer,
+createdAt: doc.data().createdAt
 });
 });
 
@@ -667,9 +668,7 @@ answer: chatArea.innerHTML,
 messages: currentChat
 });
 
-if(history.length > 5){
-history.pop();
-}
+
 
 localStorage.setItem(
 "notehub_history",
