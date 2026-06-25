@@ -277,7 +277,9 @@ serverTimestamp,
 query,
 where,
 getDocs,
-orderBy
+orderBy,
+doc,
+deleteDoc
 }
 from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
   
@@ -303,6 +305,8 @@ window.query = query;
 window.where = where;
 window.getDocs = getDocs;
 window.orderBy = orderBy;
+window.doc = doc;
+window.deleteDoc = deleteDoc;
 window.auth = auth;
 window.GoogleAuthProvider = GoogleAuthProvider;
 window.signInWithPopup = signInWithPopup;
@@ -399,6 +403,24 @@ console.log(err);
 }
 async function saveChatToCloud(question, answer){
 
+async function deleteChatFromCloud(chatId){
+
+try{
+
+await deleteDoc(
+doc(db,"chats",chatId)
+);
+
+console.log("Cloud Chat Deleted");
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
 if(!currentUser) return;
 
 try{
@@ -477,7 +499,7 @@ console.log(err);
 const btn = document.getElementById("newChatBtn");
 
 if(btn){
-btn.addEventListener("click", () => {
+btn..addEventListener("click",async ()=>{
 currentChat = [];
 document.getElementById("question").value = "";
 
@@ -593,7 +615,13 @@ let history =
 JSON.parse(
 localStorage.getItem("notehub_history")
 ) || [];
+if(history[activeChatIndex].id){
 
+await deleteChatFromCloud(
+history[activeChatIndex].id
+);
+
+}
 history.splice(activeChatIndex,1);
 
 localStorage.setItem(
