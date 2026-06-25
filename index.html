@@ -375,10 +375,10 @@ let cloudHistory = [];
 snapshot.forEach((doc)=>{
 
 cloudHistory.push({
+id: doc.id,
 question: doc.data().question,
 answer: doc.data().answer
 });
-
 });
 
 localStorage.setItem(
