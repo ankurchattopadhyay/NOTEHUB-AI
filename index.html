@@ -472,11 +472,47 @@ history
 .filter(item =>
 item.question.toLowerCase().includes(search)
 )
-.map((item,index)=>
-`<div onclick="openChat(${index})">
-${item.question}
-</div>`
-)
+.map((item,index)=>{
+
+let time = "";
+
+if(item.createdAt){
+
+let date;
+
+if(item.createdAt.toDate){
+
+date = item.createdAt.toDate();
+
+}else{
+
+date = new Date(item.createdAt);
+
+}
+
+time =
+date.toLocaleDateString() +
+" " +
+date.toLocaleTimeString([],{
+hour:"2-digit",
+minute:"2-digit"
+});
+
+}
+
+return `
+<div onclick="openChat(${index})">
+
+<b>${item.question}</b>
+
+<br>
+
+<small>${time}</small>
+
+</div>
+`;
+
+})
 .join("");
 
 }
@@ -665,7 +701,8 @@ history.unshift({
 id: chatId,
 question: currentChat[0].content,
 answer: chatArea.innerHTML,
-messages: currentChat
+messages: currentChat,
+createdAt: new Date()
 });
 
 
