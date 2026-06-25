@@ -3,16 +3,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>NoteHub AI</title>
 
 <style>
 body{
 font-family:Arial,sans-serif;
-max-width:900px;
-margin:auto;
+margin:0;
 padding:20px;
 background:#f5f7fb;
-transition:0.3s;
+transition:.3s;
 }
 
 .container{
@@ -226,8 +229,9 @@ cursor:pointer;
 body{
 
 padding:0;
-
 margin:0;
+max-width:100%;
+overflow-x:hidden;
 
 }
 
@@ -240,19 +244,12 @@ display:block;
 .sidebar{
 
 position:fixed;
-
 left:-300px;
-
 top:0;
-
 height:100vh;
-
 width:280px;
-
 z-index:999;
-
 transition:.3s;
-
 overflow:auto;
 
 }
@@ -272,8 +269,15 @@ display:flex;
 .main{
 
 width:100%;
-
 padding:15px;
+
+}
+
+.container{
+
+width:100%;
+box-sizing:border-box;
+border-radius:0;
 
 }
 
@@ -324,10 +328,15 @@ margin-bottom:10px;
 
 <div class="main">
 
-<div class="container">
 <div class="mobileHeader">
 
 <button id="menuBtn">☰</button>
+
+<span>NoteHub AI</span>
+
+</div>
+
+<div class="container">
 
 <span>NoteHub AI</span>
 
