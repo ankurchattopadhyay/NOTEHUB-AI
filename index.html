@@ -379,10 +379,12 @@ let cloudHistory = [];
 snapshot.forEach((doc)=>{
 
 cloudHistory.push({
-id: doc.id,
-question: doc.data().question,
-answer: doc.data().answer,
-createdAt: doc.data().createdAt || null
+    id: doc.id,
+    question: doc.data().question,
+    answer: doc.data().answer,
+    createdAt: doc.data().createdAt
+        ? doc.data().createdAt.toDate().toISOString()
+        : null
 });
 });
 
@@ -480,15 +482,7 @@ if(item.createdAt){
 
 let date = null;
 
-if(typeof item.createdAt.toDate === "function"){
-
-date = item.createdAt.toDate();
-
-}else{
-
 date = new Date(item.createdAt);
-
-}
 
 if(!isNaN(date.getTime())){
 
