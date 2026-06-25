@@ -401,31 +401,29 @@ console.log(err);
 }
 
 }
-async function saveChatToCloud(question, answer){
-
 async function deleteChatFromCloud(chatId){
 
-try{
+    try{
 
-await deleteDoc(
-doc(db,"chats",chatId)
-);
+        await deleteDoc(
+            doc(db,"chats",chatId)
+        );
 
-console.log("Cloud Chat Deleted");
+        console.log("Cloud Chat Deleted");
 
-}catch(err){
-
-console.log(err);
-
-}
+    }catch(err){
+        console.log(err);
+    }
 
 }
 
-if(!currentUser) return;
+async function saveChatToCloud(question,answer){
 
-try{
+    if(!currentUser) return;
 
-await addDoc(
+    try{
+
+        const docRef = await addDoc(
 collection(db,"chats"),
 {
 uid: currentUser.uid,
@@ -435,64 +433,13 @@ createdAt: serverTimestamp()
 }
 );
 
-console.log("Cloud Save Success");
+return docRef.id;
 
-}catch(err){
-
-console.log(err);
-
-}
+    }catch(err){
+        console.log(err);
+    }
 
 }
-
-async function loadCloudHistory(){
-
-if(!currentUser) return;
-
-try{
-
-const q = query(
-collection(db,"chats"),
-where("uid","==",currentUser.uid)
-);
-
-const snapshot = await getDocs(q);
-
-let cloudHistory = [];
-
-snapshot.forEach((doc)=>{
-
-cloudHistory.push({
-question: doc.data().question,
-answer: doc.data().answer
-});
-
-});
-
-localStorage.setItem(
-"notehub_history",
-JSON.stringify(cloudHistory)
-);
-
-renderHistory();
-
-console.log(
-"Loaded",
-cloudHistory.length,
-"chats for",
-currentUser.displayName
-);
-
-}catch(err){
-
-console.log(err);
-
-}
-
-}
-
-    
-
   
   document.addEventListener("DOMContentLoaded", () => {
 
@@ -705,7 +652,7 @@ currentChat.push({
 role:"assistant",
 content:data.answer
 });
-  await saveChatToCloud(
+  const chatId = await saveChatToCloud(
 question,
 data.answer
 );
@@ -714,6 +661,7 @@ chatArea.scrollTop =
 chatArea.scrollHeight;
 
 history.unshift({
+id: chatId,
 question: currentChat[0].content,
 answer: chatArea.innerHTML,
 messages: currentChat
