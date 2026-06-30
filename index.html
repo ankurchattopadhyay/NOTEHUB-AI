@@ -179,27 +179,21 @@ background:#2563eb !important;
 border:2px solid white;
 }
 .mobileHeader{
-
-display:none;
-
+display:flex;
 align-items:center;
-
+justify-content:flex-start;
 gap:15px;
-
 padding:15px;
-
 background:white;
-
-font-size:22px;
-
-font-weight:bold;
-
 position:sticky;
-
 top:0;
-
 z-index:1000;
+}
 
+.mobileHeader span{
+font-size:28px;
+font-weight:700;
+line-height:1.1;
 }
 
 #menuBtn{
@@ -263,11 +257,18 @@ textarea{
 height:120px;
 }
 
-button{
-
+button:not(#menuBtn){
 width:100%;
 margin-bottom:10px;
+}
 
+#menuBtn{
+width:52px;
+height:52px;
+margin:0;
+padding:0;
+font-size:26px;
+flex-shrink:0;
 }
 
 }
