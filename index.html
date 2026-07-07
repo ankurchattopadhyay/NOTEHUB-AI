@@ -1049,17 +1049,24 @@ return;
   
 let history =
 JSON.parse(localStorage.getItem("notehub_history")) || [];
-const question = document.getElementById("question").value;
+const question =
+document.getElementById("question").value.trim();
+
+if(!question){
+
+alert("Please enter a question");
+
+return;
+
+}
 
 currentChat.push({
+
 role:"user",
+
 content:question
+
 });
-  
-if (!question) {
-alert("Please enter a question");
-return;
-}
 
 const chatArea =
 document.getElementById("chatArea");
@@ -1140,7 +1147,7 @@ JSON.stringify(history)
 );
 
 renderHistory();
-
+document.getElementById("question").value="";
 } catch (error) {
 
 chatArea.innerHTML += `
