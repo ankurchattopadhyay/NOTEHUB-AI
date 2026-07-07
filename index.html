@@ -1040,6 +1040,25 @@ toast.remove();
 },1200);
 
 }
+function addMessage(type, html){
+
+const chatArea = document.getElementById("chatArea");
+
+const message = document.createElement("div");
+
+message.className = type + "-message";
+
+message.innerHTML = html;
+
+enableCopy(message);
+
+chatArea.appendChild(message);
+
+chatArea.scrollTop = chatArea.scrollHeight;
+
+return message;
+
+}
 async function askAI() {
 
 if(!currentUser){
@@ -1071,15 +1090,14 @@ content:question
 const chatArea =
 document.getElementById("chatArea");
 
-chatArea.innerHTML += `
-<div class="user-message">
-👤 ${question}
-</div>
-`;
+addMessage(
+"user",
+"👤 " + question
+);
 
-chatArea.innerHTML += `
-<div class="ai-message" id="thinking">
-
+const thinking = addMessage(
+"ai",
+`
 <div class="thinkingDots">
 
 <span></span>
@@ -1091,9 +1109,8 @@ chatArea.innerHTML += `
 </div>
 
 Thinking...
-
-</div>
-`;
+`
+);
 
 try {
 
@@ -1107,17 +1124,16 @@ body: JSON.stringify({ question })
 
 const data = await response.json();
 
-document.getElementById("thinking").remove();
+thinking.remove();
 
-chatArea.innerHTML += `
-<div class="ai-message">
-🤖 ${marked.parse(
+addMessage(
+"ai",
+"🤖 " + marked.parse(
 data.answer ||
 data.error ||
 "No response received."
-)}
-</div>
-`;
+)
+);
 
 currentChat.push({
 role:"assistant",
@@ -1150,11 +1166,10 @@ renderHistory();
 document.getElementById("question").value="";
 } catch (error) {
 
-chatArea.innerHTML += `
-<div class="ai-message">
-❌ Error connecting to AI
-</div>
-`;
+addMessage(
+"ai",
+"❌ Error connecting to AI"
+);
 }
 
 }
