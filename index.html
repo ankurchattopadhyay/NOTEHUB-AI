@@ -1098,31 +1098,7 @@ chatArea.scrollTop = chatArea.scrollHeight;
 return message;
 
 }
-async function typeMessage(element, html){
 
-element.innerHTML = "";
-
-const temp = document.createElement("div");
-temp.innerHTML = html;
-
-const text = temp.innerHTML;
-
-let i = 0;
-
-while(i < text.length){
-
-element.innerHTML += text.charAt(i);
-
-i++;
-
-element.parentElement.scrollTop =
-element.parentElement.scrollHeight;
-
-await new Promise(r=>setTimeout(r,8));
-
-}
-
-}
 async function askAI() {
 
 if(!currentUser){
@@ -1195,20 +1171,11 @@ const aiMessage = addMessage(
 ""
 );
 
-await typeMessage(
-
-aiMessage,
-
+aiMessage.innerHTML =
 "🤖 " + marked.parse(
-
 data.answer ||
-
 data.error ||
-
 "No response received."
-
-)
-
 );
 
 
