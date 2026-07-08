@@ -661,6 +661,42 @@ transform:translateY(0);
 }
 
 }
+#question:focus{
+
+outline:none;
+
+border:2px solid #2563eb;
+
+box-shadow:0 0 15px rgba(37,99,235,.25);
+
+}
+#selectedFile{
+
+margin:12px;
+
+padding:10px 16px;
+
+background:#eef4ff;
+
+border-radius:15px;
+
+display:inline-flex;
+
+gap:10px;
+
+align-items:center;
+
+font-size:14px;
+
+}
+
+#selectedFile span{
+
+cursor:pointer;
+
+font-weight:bold;
+
+}
 </style>
 
 </head>
@@ -699,15 +735,7 @@ padding:10px;
 border:none;
 border-radius:8px;
 margin-bottom:10px;
-#question:focus{
 
-outline:none;
-
-border:2px solid #2563eb;
-
-box-shadow:0 0 15px rgba(37,99,235,.25);
-
-}
 ">
 
 <div id="history"></div>
@@ -1227,42 +1255,20 @@ questionBox.style.height=
 questionBox.scrollHeight+"px";
 
 });
-questionBox.addEventListener("keydown",(e)=>{
+questionBox.addEventListener("input",()=>{
 
-if(e.key==="Enter" && !e.shiftKey){
+questionBox.style.height="46px";
 
-e.preventDefault();
+questionBox.style.height=
+questionBox.scrollHeight+"px";
 
-askAI();
-
-}
+sendBtn.disabled =
+questionBox.value.trim()==="";
 
 });
 const sendBtn=document.getElementById("sendBtn");
 
-questionBox.addEventListener("input",()=>{
-
-sendBtn.disabled=
-questionBox.value.trim()==="";
-
-});
 async function askAI() {
-const attachBtn =
-document.querySelector(".attachBtn");
-
-const attachMenu =
-document.getElementById("attachMenu");
-
-attachBtn.addEventListener("click",(e)=>{
-
-e.preventDefault();
-
-attachMenu.style.display =
-attachMenu.style.display==="block"
-? "none"
-: "block";
-
-});
 
 document.addEventListener("click",(e)=>{
 
@@ -1459,27 +1465,83 @@ sidebar.classList.remove("show");
 });
 function pickPDF(){
 
-document.getElementById("fileInput").accept=".pdf";
+const input =
+document.getElementById("fileInput");
 
-document.getElementById("fileInput").click();
+input.value="";
+
+input.accept=".pdf,application/pdf";
+
+input.click();
 
 }
 
 function pickImage(){
 
-document.getElementById("fileInput").accept="image/*";
+const input =
+document.getElementById("fileInput");
 
-document.getElementById("fileInput").click();
+input.value="";
+
+input.accept="image/*";
+
+input.click();
 
 }
 
 function pickFile(){
 
-document.getElementById("fileInput").accept="*";
+const input =
+document.getElementById("fileInput");
 
-document.getElementById("fileInput").click();
+input.value="";
+
+input.accept="*/*";
+
+input.click();
 
 }
+  const fileInput =
+document.getElementById("fileInput");
+
+fileInput.addEventListener("change",(e)=>{
+
+const file = e.target.files[0];
+
+if(!file) return;
+
+addSelectedFile(file);
+function addSelectedFile(file){
+
+const old =
+document.getElementById("selectedFile");
+
+if(old){
+
+old.remove();
+
+}
+
+const chip =
+document.createElement("div");
+
+chip.id="selectedFile";
+
+chip.innerHTML=`
+📄 ${file.name}
+
+<span
+onclick="this.parentElement.remove()">
+✕
+</span>
+`;
+
+document
+.querySelector(".chatInputBar")
+.before(chip);
+
+}
+});
 </script>
 
 </body>
