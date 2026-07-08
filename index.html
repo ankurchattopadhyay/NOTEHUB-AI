@@ -734,13 +734,7 @@ window.onAuthStateChanged = onAuthStateChanged;
 let currentChat = [];
 let activeChatIndex = -1;
 let currentUser = null;
-  
-document.getElementById("question").addEventListener("keydown", function(e) {
-if (e.key === "Enter" && !e.shiftKey) {
-e.preventDefault();
-askAI();
-}
-});
+
 
 function copyAnswer() {
 alert("Copy feature will return in V2.3B");
@@ -1230,7 +1224,7 @@ chatArea.scrollHeight;
 
 history.unshift({
 id: chatId,
-question: currentChat[0].content,
+question: question,
 answer: chatArea.innerHTML,
 messages: currentChat,
 createdAt: new Date()
@@ -1245,6 +1239,7 @@ JSON.stringify(history)
 
 renderHistory();
 document.getElementById("question").value="";
+  sendBtn.disabled = true;
 } catch (error) {
 
 addMessage(
