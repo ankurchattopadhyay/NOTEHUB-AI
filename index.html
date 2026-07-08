@@ -1267,7 +1267,17 @@ questionBox.value.trim()==="";
 
 });
 const sendBtn=document.getElementById("sendBtn");
+questionBox.addEventListener("keydown",(e)=>{
 
+if(e.key==="Enter" && !e.shiftKey){
+
+e.preventDefault();
+
+askAI();
+
+}
+
+});
 async function askAI() {
 
 document.addEventListener("click",(e)=>{
@@ -1408,21 +1418,34 @@ document.querySelector(".attachBtn");
 const attachMenu =
 document.getElementById("attachMenu");
 
-attachBtn.addEventListener("click",(e)=>{
+const attachBtn =
+document.querySelector(".attachBtn");
+
+const attachMenu =
+document.getElementById("attachMenu");
+
+attachBtn.onclick = function(e){
 
 e.preventDefault();
 
+e.stopPropagation();
+
 attachMenu.style.display =
 attachMenu.style.display==="block"
-? "block"
+? "none"
 : "block";
 
-attachMenu.style.display =
-attachMenu.style.display==="none" || attachMenu.style.display===""
+};
 
-? "block"
+document.addEventListener("click",function(){
 
-: "none";
+attachMenu.style.display="none";
+
+});
+
+attachMenu.addEventListener("click",function(e){
+
+e.stopPropagation();
 
 });
 
@@ -1529,11 +1552,7 @@ chip.id="selectedFile";
 
 chip.innerHTML=`
 📄 ${file.name}
-
-<span
-onclick="this.parentElement.remove()">
-✕
-</span>
+<span onclick="this.parentElement.remove()">✕</span>
 `;
 
 document
@@ -1541,7 +1560,6 @@ document
 .before(chip);
 
 }
-});
 </script>
 
 </body>
