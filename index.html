@@ -602,6 +602,15 @@ padding:10px;
 border:none;
 border-radius:8px;
 margin-bottom:10px;
+#question:focus{
+
+outline:none;
+
+border:2px solid #2563eb;
+
+box-shadow:0 0 15px rgba(37,99,235,.25);
+
+}
 ">
 
 <div id="history"></div>
@@ -1098,7 +1107,35 @@ chatArea.scrollTop = chatArea.scrollHeight;
 return message;
 
 }
+const questionBox = document.getElementById("question");
 
+questionBox.addEventListener("input",()=>{
+
+questionBox.style.height="46px";
+
+questionBox.style.height=
+questionBox.scrollHeight+"px";
+
+});
+questionBox.addEventListener("keydown",(e)=>{
+
+if(e.key==="Enter" && !e.shiftKey){
+
+e.preventDefault();
+
+askAI();
+
+}
+
+});
+const sendBtn=document.getElementById("sendBtn");
+
+questionBox.addEventListener("input",()=>{
+
+sendBtn.disabled=
+questionBox.value.trim()==="";
+
+});
 async function askAI() {
 
 if(!currentUser){
