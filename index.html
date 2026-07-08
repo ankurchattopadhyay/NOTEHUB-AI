@@ -564,6 +564,103 @@ transform:translateY(0);
 }
 
 }
+.attachMenu{
+
+position:absolute;
+
+bottom:75px;
+
+left:15px;
+
+width:220px;
+
+background:white;
+
+border-radius:18px;
+
+box-shadow:0 10px 35px rgba(0,0,0,.18);
+
+display:none;
+
+overflow:hidden;
+
+animation:menuShow .18s ease;
+
+z-index:9999;
+
+}
+
+.dark .attachMenu{
+
+background:#202123;
+
+color:white;
+
+}
+
+.attachItem{
+
+padding:15px 18px;
+
+cursor:pointer;
+
+font-size:16px;
+
+transition:.2s;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.attachItem:hover{
+
+background:#eef4ff;
+
+}
+
+.dark .attachItem:hover{
+
+background:#2b2d31;
+
+}
+
+.attachItem.disabled{
+
+opacity:.5;
+
+cursor:not-allowed;
+
+}
+
+.attachItem span{
+
+font-size:12px;
+
+}
+
+@keyframes menuShow{
+
+from{
+
+opacity:0;
+
+transform:translateY(12px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
 </style>
 
 </head>
@@ -654,7 +751,26 @@ box-shadow:0 0 15px rgba(37,99,235,.25);
 <label for="fileInput" class="attachBtn">
 +
 </label>
+<div id="attachMenu" class="attachMenu">
 
+<div class="attachItem" onclick="pickPDF()">
+📄 PDF
+</div>
+
+<div class="attachItem" onclick="pickImage()">
+🖼 Image
+</div>
+
+<div class="attachItem" onclick="pickFile()">
+📁 File
+</div>
+
+<div class="attachItem disabled">
+🎤 Voice
+<span>Coming Soon</span>
+</div>
+
+</div>
 <input
 type="file"
 id="fileInput"
@@ -1131,7 +1247,38 @@ questionBox.value.trim()==="";
 
 });
 async function askAI() {
+const attachBtn =
+document.querySelector(".attachBtn");
 
+const attachMenu =
+document.getElementById("attachMenu");
+
+attachBtn.addEventListener("click",(e)=>{
+
+e.preventDefault();
+
+attachMenu.style.display =
+attachMenu.style.display==="block"
+? "none"
+: "block";
+
+});
+
+document.addEventListener("click",(e)=>{
+
+if(
+
+!attachMenu.contains(e.target) &&
+
+!attachBtn.contains(e.target)
+
+){
+
+attachMenu.style.display="none";
+
+}
+
+});
 if(!currentUser){
 alert("Please login first");
 return;
@@ -1249,6 +1396,45 @@ addMessage(
 }
 
 }
+const attachBtn =
+document.querySelector(".attachBtn");
+
+const attachMenu =
+document.getElementById("attachMenu");
+
+attachBtn.addEventListener("click",(e)=>{
+
+e.preventDefault();
+
+attachMenu.style.display =
+attachMenu.style.display==="block"
+? "block"
+: "block";
+
+attachMenu.style.display =
+attachMenu.style.display==="none" || attachMenu.style.display===""
+
+? "block"
+
+: "none";
+
+});
+
+document.addEventListener("click",(e)=>{
+
+if(
+
+!attachMenu.contains(e.target) &&
+
+!attachBtn.contains(e.target)
+
+){
+
+attachMenu.style.display="none";
+
+}
+
+});
 const menuBtn = document.getElementById("menuBtn");
 
 const sidebar = document.getElementById("sidebar");
@@ -1271,6 +1457,29 @@ sidebar.classList.remove("show");
 }
 
 });
+function pickPDF(){
+
+document.getElementById("fileInput").accept=".pdf";
+
+document.getElementById("fileInput").click();
+
+}
+
+function pickImage(){
+
+document.getElementById("fileInput").accept="image/*";
+
+document.getElementById("fileInput").click();
+
+}
+
+function pickFile(){
+
+document.getElementById("fileInput").accept="*";
+
+document.getElementById("fileInput").click();
+
+}
 </script>
 
 </body>
