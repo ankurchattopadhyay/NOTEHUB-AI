@@ -1247,14 +1247,7 @@ return message;
 }
 const questionBox = document.getElementById("question");
 
-questionBox.addEventListener("input",()=>{
 
-questionBox.style.height="46px";
-
-questionBox.style.height=
-questionBox.scrollHeight+"px";
-
-});
 questionBox.addEventListener("input",()=>{
 
 questionBox.style.height="46px";
@@ -1280,21 +1273,7 @@ askAI();
 });
 async function askAI() {
 
-document.addEventListener("click",(e)=>{
 
-if(
-
-!attachMenu.contains(e.target) &&
-
-!attachBtn.contains(e.target)
-
-){
-
-attachMenu.style.display="none";
-
-}
-
-});
 if(!currentUser){
 alert("Please login first");
 return;
@@ -1445,21 +1424,7 @@ e.stopPropagation();
 
 });
 
-document.addEventListener("click",(e)=>{
 
-if(
-
-!attachMenu.contains(e.target) &&
-
-!attachBtn.contains(e.target)
-
-){
-
-attachMenu.style.display="none";
-
-}
-
-});
 const menuBtn = document.getElementById("menuBtn");
 
 const sidebar = document.getElementById("sidebar");
@@ -1520,7 +1485,7 @@ input.accept="*/*";
 input.click();
 
 }
-  const fileInput =
+const fileInput =
 document.getElementById("fileInput");
 
 fileInput.addEventListener("change",(e)=>{
@@ -1530,6 +1495,9 @@ const file = e.target.files[0];
 if(!file) return;
 
 addSelectedFile(file);
+
+});   // <-- এটা ছিল না
+
 function addSelectedFile(file){
 
 const old =
@@ -1555,7 +1523,7 @@ document
 .querySelector(".chatInputBar")
 .before(chip);
 
-}
+}   // <-- function শেষ
 </script>
 
 </body>
